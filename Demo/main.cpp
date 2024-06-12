@@ -1,8 +1,11 @@
+#include "..\solver\Weekday.h"
 #include "..\solver\Date.h"
 #include <iostream>
 
+
 int main() 
 {
+    using namespace MyNamespace;
     Date d1(11, 6, 2024);
     Date d2(1, Month::January, 2025);
 

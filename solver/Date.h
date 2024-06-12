@@ -1,64 +1,149 @@
 #include <iostream>
 #include <string>
-
-/*
-*@brief Класс для работы с Месяцами
-*/
-enum class Month
+#include "Weekday.h"
+#include "Month.h"
+namespace MyNamespace
 {
-    January = 1, February, March, April, May, June,
-    July, August, September, October, November, December
-};
-
-/*
-*@brief Класс для работы с днями неделями
+/**
+* @brief Класс, представляющий календарную дату.
 */
-enum class Weekday 
-{
-Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
-};
-
 class Date {
 private:
-    int day; // День
-    int month; // Месяц
-    int year; // Год
+    int day;
+    int month;
+    int year;
+
+    /**
+     * @brief Проверка корректности даты
+     * @return Истинно, если дата действительна, в противном случае ложно.
+     */
+    bool isValid() const;
+    /**
+     * @brief Вычисление високосности года
+     * @param год, который нужно проверить.
+     * @return Истинно, если год является високосным, в противном случае ложно.
+     */
+    static bool isLeapYear(int year);
+    /**
+     * @brief Вычисление количества дней в месяце
+     * @param Год
+     * @return Количество дней в месяце
+     */
+    static int daysInMonth(int month, int year);
+    /**
+     * @brief Создает объект
+     * @param Месяц
+     * @param Год
+     * @return Количество дней в месяце.
+     */
+    static int daysInMonth(Month month, int year);
 public:
-    Date(int d, int m, int y); // конструктор
-    Date(int d, Month m, int y); // конструктор
+    /**
+     * @brief Создает консруктор по умолчанию
+     * @param День
+     * @param Месяц
+     * @param Год
+     */
+    Date(int d, int m, int y);
+    /**
+     * @brief Создает консруктор по умолчанию
+     * @param День
+     * @param Месяц
+     * @param Год
+     */
+    Date(int d, Month m, int y);
+    /**
+     * @brief Получает день
+     * @return день
+     */
+    int GetDay() const;
+    /**
+     * @brief Получает месяц
+     * @return Месяц
+     */
+    int GetMonth() const;
+    /**
+     * @brief Получает год
+     * @return год
+     */
+    int GetYear() const;
 
-    ~Date();  // Деструктор
-    Date(const Date& other);  // Конструктор копирования
-    Date& operator=(const Date& other);  // Оператор присваивания копированием
-    Date(Date&& other) noexcept;  // Конструктор перемещения
-    Date& operator=(Date&& other) noexcept;  // Оператор присваивания перемещением
-
-    bool isValid() const; // Проверка корректности даты
-    static bool isLeapYear(int year); //Вычисление високосности года
-    static int daysInMonth(int month, int year); //Вычисление количества дней в месяце
-    static int daysInMonth(Month month, int year); //Вычисление количества дней в месяце
-
-    int GetDay() const;    // Получить день
-    int GetMonth() const;  // Получить месяц
-    int GetYear() const;   // Получить год
-
-    friend std::ostream &operator<<(std::ostream &os, const Date &date);  // Оператор вывода
-    bool operator==(const Date &other) const;  // Оператор сравнения ==
-    bool operator!=(const Date &other) const;  // Оператор сравнения !=
-    bool operator<(const Date &other) const;  // Оператор сравнения <
-    bool operator<=(const Date &other) const;  // Оператор сравнения <=
-    bool operator>(const Date &other) const;  // Оператор сравнения >
-    bool operator>=(const Date &other) const;  // Оператор сравнения >=
-    Date operator+(int days) const;  // Оператор сложения с днем
-    Date operator-(int days) const;  // Оператор вычитания с днем
-    int operator-(const Date &other) const;  // Оператор вычитания двух дат
-    static std::string weekDayToString(Weekday weekday);  // Преобразование дня недели в строку
-
-    std::string duration(const Date &other) const;  // Вычисление продолжительности между двумя дат
-    Weekday dayOfWeek() const;  // Вычисление дня недели
-
-    Date Tomorrow() const;  // Получить дату следующего дня
-    Date Yesterday() const;  // Получить дату предыдущего дня
-    Date DayAfterTomorrow() const;  // Получить дату следующего дня после следующего
-    Date DayBeforeYesterday() const;  // Получить дату предыдущего дня до предыдущего
+    /*
+    *@brief оператор "<<" для класса Date
+    */
+    friend std::ostream &operator<<(std::ostream &os, const Date &date);
+    /*
+    *@brief оператор "==" для класса Date
+    */
+    bool operator==(const Date &other) const;
+    /*
+    *@brief оператор "!=" для класса Date
+    */
+    bool operator!=(const Date &other) const;
+    /*
+    *@brief оператор "<" для класса Date
+    */
+    bool operator<(const Date &other) const;
+    /*
+    *@brief оператор "<=" для класса Date
+    */
+    bool operator<=(const Date &other) const;
+    /*
+    *@brief оператор ">" для класса Date
+    */
+    bool operator>(const Date &other) const;
+    /*
+    *@brief оператор ">=" для класса Date
+    */
+    bool operator>=(const Date &other) const;
+    /*
+    *@brief оператор "+" для класса Date
+    */
+    Date operator+(int days) const;
+    /*
+    *@brief оператор "-" для класса Date
+    */
+    Date operator-(int days) const;
+    /*
+    *@brief оператор "-" для класса Date
+    */
+    int operator-(const Date &other) const;
+    /**
+     * @brief Преобразует Weekday в строку.
+     * @param weekday День недели в виде Weekday.
+     * @return Строковое представление дня недели.
+     */
+    static std::string weekDayToString(Weekday weekday);
+    /**
+     * @brief Возвращает продолжительность между двумя датами.
+     * @param other Другая дата.
+     * @return Строка, представляющая продолжительность.
+     */
+    std::string duration(const Date &other) const;
+    /**
+     * @brief Возвращает день недели для текущей даты.
+     * @return День недели в виде Weekday.
+     */
+    Weekday dayOfWeek() const;
+    /**
+     * @brief Возвращает дату завтрашнего дня.
+     * @return Дата завтрашнего дня.
+     */
+    Date Tomorrow() const;
+    /**
+     * @brief Gets the date of yesterday.
+     * @return The date of yesterday.
+     */
+    Date Yesterday() const;
+    /**
+     * @brief Возвращает дату послезавтрашнего дня.
+     * @return Послезавтрашнее число.
+     */
+    Date DayAfterTomorrow() const;
+    /**
+     * @brief Возвращает дату позавчерашнего дн
+     * @return Позавчерашняя дата.
+     */
+    Date DayBeforeYesterday() const;
 };
+}
