@@ -4,13 +4,12 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace DateTest
-{
+namespace Tests
     TEST_CLASS(DateTest)
     {
     public:
 
-        TEST_METHOD(Constructor_ValidDate)
+        TEST_METHOD(Constructor_ValidDate_Success)
         {
             Date d(15, 3, 2022);
             Assert::AreEqual(d.GetDay(), 15);
@@ -18,41 +17,42 @@ namespace DateTest
             Assert::AreEqual(d.GetYear(), 2022);
         }
 
-        TEST_METHOD(Constructor_InvalidDate)
+        TEST_METHOD(Constructor_InvalidDate_Fail)
         {
             auto func = []() { Date d(31, 2, 2022); };
             Assert::ExpectException<std::invalid_argument>(func);
         }
 
-        TEST_METHOD(Operator_EqualEqual)
+        TEST_METHOD(Operator_EqualEqual_Success)
         {
             Date d1(15, 3, 2022);
             Date d2(15, 3, 2022);
             Assert::IsTrue(d1 == d2);
         }
 
-        TEST_METHOD(Operator_NotEqual)
+
+        TEST_METHOD(Operator_NotEqual_Success)
         {
             Date d1(15, 3, 2022);
             Date d2(16, 3, 2022);
             Assert::IsTrue(d1 != d2);
         }
 
-        TEST_METHOD(Operator_LessThan)
+        TEST_METHOD(Operator_LessThan_Success)
         {
             Date d1(15, 3, 2022);
             Date d2(16, 3, 2022);
             Assert::IsTrue(d1 < d2);
         }
 
-        TEST_METHOD(Operator_GreaterThan)
+        TEST_METHOD(Operator_GreaterThan_Success)
         {
             Date d1(17, 3, 2022);
             Date d2(16, 3, 2022);
             Assert::IsTrue(d1 > d2);
         }
 
-        TEST_METHOD(AddDays)
+        TEST_METHOD(AddDays_ValidDate_Success)
         {
             Date d(28, 2, 2020);
             Date result = d + 1;
@@ -61,7 +61,7 @@ namespace DateTest
             Assert::AreEqual(result.GetYear(), 2020);
         }
 
-        TEST_METHOD(SubtractDays)
+        TEST_METHOD(SubtractDays_ValidDate_Success)
         {
             Date d(1, 3, 2020);
             Date result = d - 1;
@@ -70,7 +70,7 @@ namespace DateTest
             Assert::AreEqual(result.GetYear(), 2020);
         }
 
-        TEST_METHOD(Duration)
+        TEST_METHOD(Duration_ValidDates_Success)
         {
             Date d1(1, 1, 2020);
             Date d2(1, 1, 2021);
@@ -78,14 +78,14 @@ namespace DateTest
             Assert::AreEqual(duration, std::string("1 year "));
         }
 
-        TEST_METHOD(DayOfWeek)
+        TEST_METHOD(DayOfWeek_ValidDate_Success)
         {
             Date d(15, 3, 2022);
             Weekday wd = d.dayOfWeek();
             Assert::AreEqual(Date::weekDayToString(wd), std::string("Tuesday"));
         }
 
-        TEST_METHOD(Tomorrow)
+        TEST_METHOD(Tomorrow_ValidDate_Success)
         {
             Date d(31, 12, 2021);
             Date result = d.Tomorrow();
@@ -94,7 +94,7 @@ namespace DateTest
             Assert::AreEqual(result.GetYear(), 2022);
         }
 
-        TEST_METHOD(Yesterday)
+        TEST_METHOD(Yesterday_ValidDate_Success)
         {
             Date d(1, 1, 2022);
             Date result = d.Yesterday();
