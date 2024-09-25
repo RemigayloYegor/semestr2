@@ -169,15 +169,16 @@ std::string Date::duration(const Date &other) const
     int months = std::abs(month - other.month);
     int days = std::abs(day - other.day);
 
-    std::string result;
-    if (years > 0) 
-      result += std::to_string(years) + " year" + (years > 1 ? "s " : " ");
-    if (months > 0)
-      result += std::to_string(months) + " month" + (months > 1 ? "s " : " ");
-    if (days > 0) 
-      result += std::to_string(days) + " day" + (days > 1 ? "s " : " ");
+    std::stringstream result;
 
-    return result;
+    if (years > 0)
+        result << years << " year" << (years > 1 ? "s " : " ");
+    if (months > 0)
+        result << months << " month" << (months > 1 ? "s " : " ");
+    if (days > 0)
+        result << days << " day" << (days > 1 ? "s " : " ");
+
+    return result.str();
 }
 
 Weekday Date::dayOfWeek() const 
